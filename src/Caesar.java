@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Caesar {
 
-    int count = 0;
-    final int MAX = 35;
+//    int count = 0;
+//    final int MAX = 35;
 
     public static void encrypt (ArrayList<Character> listTemplate, int key, char[] charTemplate, int real) {
 
@@ -42,8 +42,29 @@ public class Caesar {
                     charTemplate[i] = listTemplate.get(newOrderNumber);
                 }
             }
-
         }
+    }
+
+    public static boolean findCorrectVersion (char[] charTemplate){
+        int count = 0;
+        int max = 25;
+        boolean check = false;
+
+        for (char c : charTemplate) {
+
+            // проходимся по массиву с целью выявить наличие пробелов " "
+            if (c == ' ') {
+                // если пробелы есть то увеличиваем счетчик
+                count = count + 1;
+            }
+            if (count >= max) {
+                //writer.write(buffer,0, real);
+                check = true;
+                break;
+            }
+            // если значение счетчика переваливает за 35, то записываем массив в файл
+        }
+        return check;
     }
 
 }

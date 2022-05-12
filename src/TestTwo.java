@@ -17,8 +17,8 @@ public class TestTwo {
                 'а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у',
                 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '”', ':', '-', '!', '?', ' ');
 
-        File inputFile = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\src\\inputFile.txt");
-        File outPutFile = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\src\\outPutFile.txt");
+        File inputFile = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\resources\\inputFile.txt");
+        File outPutFile = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\resources\\outPutFile.txt");
         try (InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
              FileWriter writer = new FileWriter(outPutFile)) {
 
@@ -53,36 +53,33 @@ public class TestTwo {
             System.out.println("File Reading/ File Writing Error");
         }
 //-------------------------------------------------------------------------------------------------
-        System.out.println("Доступна опция дешифрования. Введите \"Да\" чтобы продолжить или \"Нет\" чтобы остановить программу");
+        System.out.println("Доступна опция дешифрования. Введите \"Да\" чтобы продолжить");
         Scanner scanner1 = new Scanner(System.in);
         String option = scanner1.nextLine();
 
-        while (option.equalsIgnoreCase("Нет")) {
-            break;
-        }
 
-        System.out.println("Начинается процесс дешифрования");
-        int keyReverse = 1;
+        if (option.equalsIgnoreCase("Да")) {
 
-        File inputFile2 = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\src\\outPutFile.txt");
-        File outPutFile2 = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\src\\outPutFileReverse.txt");
+            System.out.println("Начинается процесс дешифрования");
+            int keyReverse = 1;
 
-        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile2), StandardCharsets.UTF_8);
-             FileWriter writer = new FileWriter(outPutFile2)) {
-            // создаем массив символов и считываем содержимое зашифрованного файла в него
-            char[] buffer = new char[4096];
-            int real = 0;
-            while (reader.ready()) {
+            File inputFile2 = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\resources\\outPutFile.txt");
+            File outPutFile2 = new File("C:\\Users\\Jama\\Desktop\\Java\\Java_Syntax\\resources\\outPutFileReverse.txt");
 
-                real = reader.read(buffer);
-            }
-            String textFromFile = new String(buffer, 0, real);
-            // начинаем работать с массивом, сожержащим зашифрованный текст
-            for (int j = 0; j < symbols.size(); j++) {
+            try (InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile2), StandardCharsets.UTF_8);
+                 FileWriter writer = new FileWriter(outPutFile2)) {
+                // создаем массив символов и считываем содержимое зашифрованного файла в него
+                char[] buffer = new char[4096];
+                int real = 0;
+                while (reader.ready()) {
 
-
-                Caesar.decrypt(symbols, keyReverse, buffer, real);
-                // присваиваем ключу значение j и перебираем все возможные вариианты
+                    real = reader.read(buffer);
+                }
+                String textFromFile = new String(buffer, 0, real);
+                // начинаем работать с массивом, сожержащим зашифрованный текст
+                for (int j = 0; j < symbols.size(); j++) {
+                    Caesar.decrypt(symbols, keyReverse, buffer, real);
+                    // присваиваем ключу значение j и перебираем все возможные вариианты
 //                for (int i = 0; i < real; i++) {
 //                    if (symbols.contains(buffer[i])) {
 //                        int orderNumber = symbols.indexOf(buffer[i]); // порядковый номер зашифрованной буквы
@@ -98,28 +95,35 @@ public class TestTwo {
 //
 //                }
 
-                // получили новый "расшифрованный массив символов"
-                int count = 0;
-                final int MAX = 35;
-                for (int i = 0; i < real; i++) {
+                    // получили новый "расшифрованный массив символов"
 
-                    // проходимся по массиву с целью выявить наличие пробелов " "
-                    if (buffer[i] == ' ' )
-                    {
-                        // если пробелы есть то увеличиваем счетчик
-                        count = count + 1;
+                    boolean check = Caesar.findCorrectVersion(buffer);
 
-                    }
-                    if (count > MAX){
-                        writer.write(buffer,0, real);
+                    if (check) {
+                        writer.write(buffer, 0, real);
                         break;
                     }
-                    // если значение счетчика переваливает за 35, то записываем массив в файл
+//                int count = 0;
+//                final int MAX = 35;
+
+//                for (int i = 0; i < real; i++) {
+//                    if (buffer[i] == ' ' ) // проходимся по массиву с целью выявить наличие пробелов " "
+//                    {
+//                        count = count + 1; // если пробелы есть то увеличиваем счетчик
+//                    }
+//
+//                    if (count > MAX){
+//                        writer.write(buffer,0, real); // если значение счетчика переваливает за 35, то записываем массив в файл
+//                        break;
+//                    }
+//                }
                 }
+            } catch (IOException ex) {
+                System.out.println("File Reading/ File Writing Error");
             }
-        } catch (IOException ex) {
-            System.out.println("File Reading/ File Writing Error");
         }
+
+
 
     }
 }
