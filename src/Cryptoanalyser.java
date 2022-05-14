@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class TestTwo {
+public class Cryptoanalyser {
 
     public static void main(String[] args) {
         ArrayList<Character> symbols = new ArrayList<>();
