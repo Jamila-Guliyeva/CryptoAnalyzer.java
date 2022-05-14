@@ -49,7 +49,7 @@ public class Caesar {
 
     public static boolean findCorrectVersion (char[] charTemplate){
         int count = 0;
-        int max = 25;
+        int max = 35;
         boolean check = false;
 
         for (char c : charTemplate) {
